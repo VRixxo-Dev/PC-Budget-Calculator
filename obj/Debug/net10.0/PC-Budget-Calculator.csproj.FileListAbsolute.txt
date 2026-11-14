@@ -1,0 +1,14 @@
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/bin/Debug/net10.0/PC-Budget-Calculator
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/bin/Debug/net10.0/PC-Budget-Calculator.deps.json
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/bin/Debug/net10.0/PC-Budget-Calculator.runtimeconfig.json
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/bin/Debug/net10.0/PC-Budget-Calculator.dll
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/bin/Debug/net10.0/PC-Budget-Calculator.pdb
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/obj/Debug/net10.0/PC-Budget-Calculator.GeneratedMSBuildEditorConfig.editorconfig
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/obj/Debug/net10.0/PC-Budget-Calculator.AssemblyInfoInputs.cache
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/obj/Debug/net10.0/PC-Budget-Calculator.AssemblyInfo.cs
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/obj/Debug/net10.0/PC-Budget-Calculator.csproj.CoreCompileInputs.cache
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/obj/Debug/net10.0/PC-Budget-Calculator.dll
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/obj/Debug/net10.0/refint/PC-Budget-Calculator.dll
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/obj/Debug/net10.0/PC-Budget-Calculator.pdb
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/obj/Debug/net10.0/PC-Budget-Calculator.genruntimeconfig.cache
+/home/VRixxo/dev/learning/c#/PC-Budget-Calculator/obj/Debug/net10.0/ref/PC-Budget-Calculator.dll
