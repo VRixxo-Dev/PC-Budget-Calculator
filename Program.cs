@@ -1,11 +1,13 @@
-﻿namespace BudgetCalculator
+﻿using System.Reflection;
+
+namespace BudgetCalculator
 {
     public class BudgetLogic
     { 
         public static void Main()
         {
             //First Run
-            string appVer = "2.0";
+            string appVer = "1.0";
             Console.WriteLine($"PC-Budget-Calculator: Version {appVer}\n");
 
             //Start App
@@ -27,27 +29,28 @@
             string userName = Console.ReadLine() ?? "User";
 
             //Pass a Prompt and Bool to Helper Function to return a valid double
-            double userBudget = ReadValidAmmount("Please Enter Budget: ",false);
-            double gpuCost = ReadValidAmmount("GPU Cost: ");
-            double cpuCost = ReadValidAmmount("CPU Cost: ");
-            double ramCost = ReadValidAmmount("RAM Cost: ");
+            double userBudget = ReadValidAmount("Please Enter Budget: ",false);
+            double gpuCost = ReadValidAmount("GPU Cost: ");
+            double cpuCost = ReadValidAmount("CPU Cost: ");
+            double ramCost = ReadValidAmount("RAM Cost: ");
 
             //Send Results for Calculation
             CalculateBudget(gpuCost,cpuCost,ramCost,userBudget,userName);
         }
         //Potentially add another argument to allow specificying the type of Invaldi Number
         //Ex $Invalid {errorPrompt}, Please try again } | Not Important
-        public static double ReadValidAmmount(string appPrompt, bool allowZero = true) //TODO Replace redundant TryParse logic
+        public static double ReadValidAmount(string prompt, bool allowZero = true) //TODO Replace redundant TryParse logic
         {
-            double ammount;
-            Console.Write(appPrompt);
+            double amount;
+            Console.Write(prompt);
 
-            while (!double.TryParse(Console.ReadLine() ?? "", out  ammount) || (allowZero == false && ammount == 0)) 
+            while (!double.TryParse(Console.ReadLine() ?? "", out  amount) 
+                || amount < 0
+                || (!allowZero && amount == 0))
             {
                 Console.Write($"Invalid Number, Please Try Again: ");
-                continue;
             }
-            return ammount;
+            return amount;
         }
 
         public static void CalculateBudget(double gpuCost,double cpuCost,double ramCost,double userBudget, string userName)
@@ -73,10 +76,6 @@
             else if(combinedUpgradeCost == userBudget)
             {
                 budgetStatus = "Right On Target";
-            }
-            else if(combinedUpgradeCost < 0)
-            {
-                budgetStatus = "You are a Wizard of Unknown Stregnths";
             }
             else
             {
