@@ -4,15 +4,29 @@
     { 
         public static void Main()
         {
-            GatherUserInformation();
+            //First Run
+            string appVer = "2.0";
+            Console.WriteLine($"PC-Budget-Calculator: Version {appVer}\n");
+
+            //Start App
+            string menuSelection;
+            do
+            {
+                GatherUserInformation();
+                Console.WriteLine("Would you like to Calculate Another Upgrade? (Y/N): ");
+                menuSelection = Console.ReadLine() ?? "N";
+            }
+            while(menuSelection == "Y"); //Ignores anything that isn't Y so it dosen't matter how the Users says No TODO: Validate
         }
 
         public static void GatherUserInformation()
         {
+            Console.Clear();
             Console.Write("What's Your Name: ");
             string userName = Console.ReadLine() ?? "User";
 
             //Validate User Inputs Valid Number
+            //TODO: Create ReadValidAmmount method to pass string Prompt and bool allowZero to reduce clutter. 
             Console.Write("\nWhat's Your Budget: ");
             if (!double.TryParse(Console.ReadLine() ?? "", out double userBudget))
             {
@@ -56,6 +70,11 @@
 
             //Send Results Over | Not Best Practice
             CalculateBudget(gpuCost,cpuCost,ramCost,userBudget,userName);
+        }
+
+        public static double ReadValidAmmount()
+        {
+            return 1;
         }
 
         public static void CalculateBudget(double gpuCost,double cpuCost,double ramCost,double userBudget, string userName)
