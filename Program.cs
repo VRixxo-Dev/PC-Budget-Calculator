@@ -10,13 +10,14 @@
 
             //Start App
             string menuSelection;
+            //We could create a helper method to validate menuSelection, Backlog
             do
             {
                 GatherUserInformation();
-                Console.WriteLine("Would you like to Calculate Another Upgrade? (Y/N): ");
-                menuSelection = Console.ReadLine() ?? "N";
+                Console.Write("\nWould you like to Calculate Another Upgrade? (Y/N): ");
+                menuSelection = (Console.ReadLine() ?? String.Empty).Trim().ToUpper();
             }
-            while(menuSelection == "Y"); //Ignores anything that isn't Y so it dosen't matter how the Users says No TODO: Validate
+            while(menuSelection == "Y");
         }
 
         public static void GatherUserInformation()
@@ -25,56 +26,28 @@
             Console.Write("What's Your Name: ");
             string userName = Console.ReadLine() ?? "User";
 
-            //Validate User Inputs Valid Number
-            //TODO: Create ReadValidAmmount method to pass string Prompt and bool allowZero to reduce clutter. 
-            Console.Write("\nWhat's Your Budget: ");
-            if (!double.TryParse(Console.ReadLine() ?? "", out double userBudget))
-            {
-                Console.WriteLine("Invalid Budget. Please enter a number.");
-                return;
-            }
+            //Pass a Prompt and Bool to Helper Function to return a valid double
+            double userBudget = ReadValidAmmount("Please Enter Budget: ",false);
+            double gpuCost = ReadValidAmmount("GPU Cost: ");
+            double cpuCost = ReadValidAmmount("CPU Cost: ");
+            double ramCost = ReadValidAmmount("RAM Cost: ");
 
-            Console.Write("\nGPU Cost: ");
-            if (!double.TryParse(Console.ReadLine() ?? "", out double gpuCost))
-            {
-                Console.WriteLine("Invalid GPU Cost. Please enter a number.");
-                return;
-            }
-
-            Console.Write("\nCPU Cost: ");
-            if (!double.TryParse(Console.ReadLine() ?? "", out double cpuCost))
-            {
-                Console.WriteLine("Invalid CPU Cost. Please enter a number.");
-                return;
-            }
-            
-            Console.Write("\nRAM Cost: ");
-            if (!double.TryParse(Console.ReadLine() ?? "", out double ramCost))
-            {
-                Console.WriteLine("Invalid RAM Cost. Please enter a number.");
-                return;
-            }
-
-            //Validate Numbers are Valid
-            if (userBudget <= 0)
-            {
-                Console.WriteLine("Budget must be greater than Zero.");
-                return;
-            }
-
-            if (gpuCost < 0 || cpuCost < 0 || ramCost < 0 )
-            {
-                Console.WriteLine("Please Verify All Fields are not Empty.");
-                return;
-            }
-
-            //Send Results Over | Not Best Practice
+            //Send Results for Calculation
             CalculateBudget(gpuCost,cpuCost,ramCost,userBudget,userName);
         }
-
-        public static double ReadValidAmmount()
+        //Potentially add another argument to allow specificying the type of Invaldi Number
+        //Ex $Invalid {errorPrompt}, Please try again } | Not Important
+        public static double ReadValidAmmount(string appPrompt, bool allowZero = true) //TODO Replace redundant TryParse logic
         {
-            return 1;
+            double ammount;
+            Console.Write(appPrompt);
+
+            while (!double.TryParse(Console.ReadLine() ?? "", out  ammount) || (allowZero == false && ammount == 0)) 
+            {
+                Console.Write($"Invalid Number, Please Try Again: ");
+                continue;
+            }
+            return ammount;
         }
 
         public static void CalculateBudget(double gpuCost,double cpuCost,double ramCost,double userBudget, string userName)
@@ -89,7 +62,7 @@
             (combinedUpgradeCost, budgetRemainder, gpuCost, cpuCost, ramCost, userBudget, userName);
         }
 
-        public static void DisplayUpgradeSummary //God Bless the Argument Gods
+        public static void DisplayUpgradeSummary //God Bless the Argument Gods, We can do better TODO Cleanup
         (double combinedUpgradeCost,double budgetRemainder, double gpuCost, double cpuCost, double ramCost, double userBudget, string userName)
         {
             string budgetStatus;
@@ -100,6 +73,10 @@
             else if(combinedUpgradeCost == userBudget)
             {
                 budgetStatus = "Right On Target";
+            }
+            else if(combinedUpgradeCost < 0)
+            {
+                budgetStatus = "You are a Wizard of Unknown Stregnths";
             }
             else
             {
