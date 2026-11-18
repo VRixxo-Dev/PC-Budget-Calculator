@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.Design;
-
-namespace BudgetCalculator
+﻿namespace BudgetCalculator
 {
     public class BudgetLogic
     { 
@@ -73,7 +71,18 @@ namespace BudgetCalculator
             DisplayUpgradeSummary
             (combinedUpgradeCost, budgetRemainder, componentCost,componentNames ,userBudget, userName);
         }
+        // UNIT TESTING METHOD - Will Impliment Unit Testing in 1.1 
+        public static double UnitCalculateTotal(double[] componentCost)
+        {
+            double total = 0;
 
+            foreach (double cost in componentCost)
+            {
+                total += cost;
+            }
+
+            return total;
+        }
         private static void DisplayUpgradeSummary 
         (double combinedUpgradeCost, double budgetRemainder, double[] componentCost, string[] componentNames, double userBudget, string userName)
         {
