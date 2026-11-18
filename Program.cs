@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel.Design;
 
 namespace BudgetCalculator
 {
@@ -22,24 +22,29 @@ namespace BudgetCalculator
             while(menuSelection == "Y");
         }
 
-        public static void GatherUserInformation()
+        private static void GatherUserInformation()
         {
             Console.Clear();
             Console.Write("What's Your Name: ");
             string userName = Console.ReadLine() ?? "User";
+            double userBudget = ReadValidAmount("Please Enter Your Budget: ",false);
 
-            //Pass a Prompt and Bool to Helper Function to return a valid double
-            double userBudget = ReadValidAmount("Please Enter Budget: ",false);
-            double gpuCost = ReadValidAmount("GPU Cost: ");
-            double cpuCost = ReadValidAmount("CPU Cost: ");
-            double ramCost = ReadValidAmount("RAM Cost: ");
+            // Change ONLY this array to add components!!!
+            string[] componentNames = ["GPU","CPU","RAM"];
+            double[] componentCost = new double[componentNames.Length]; 
+
+            for (int i = 0; i < componentNames.Length; i++)
+            {
+                componentCost[i] = ReadValidAmount($"{componentNames[i]} Cost: ");
+            }
 
             //Send Results for Calculation
-            CalculateBudget(gpuCost,cpuCost,ramCost,userBudget,userName);
+            CalculateBudget(componentCost, componentNames, userBudget,userName);
         }
+
         //Potentially add another argument to allow specificying the type of Invaldi Number
         //Ex $Invalid {errorPrompt}, Please try again } | Not Important
-        public static double ReadValidAmount(string prompt, bool allowZero = true) //TODO Replace redundant TryParse logic
+         private static double ReadValidAmount(string prompt, bool allowZero = true) //TODO Replace redundant TryParse logic
         {
             double amount;
             Console.Write(prompt);
@@ -48,25 +53,29 @@ namespace BudgetCalculator
                 || amount < 0
                 || (!allowZero && amount == 0))
             {
-                Console.Write($"Invalid Number, Please Try Again: ");
+                Console.Write("Invalid Number, Please Try Again: ");
             }
             return amount;
         }
 
-        public static void CalculateBudget(double gpuCost,double cpuCost,double ramCost,double userBudget, string userName)
+        private static void CalculateBudget(double[] componentCost,string[] componentNames,double userBudget, string userName)
         {
-            double combinedUpgradeCost;
+            double combinedUpgradeCost = 0;
             double budgetRemainder;
 
-            combinedUpgradeCost = gpuCost + cpuCost + ramCost;
+            foreach(double cost in componentCost)
+            {
+                combinedUpgradeCost += cost;
+            }
+
             budgetRemainder =  userBudget - combinedUpgradeCost;
 
             DisplayUpgradeSummary
-            (combinedUpgradeCost, budgetRemainder, gpuCost, cpuCost, ramCost, userBudget, userName);
+            (combinedUpgradeCost, budgetRemainder, componentCost,componentNames ,userBudget, userName);
         }
 
-        public static void DisplayUpgradeSummary //God Bless the Argument Gods, We can do better TODO Cleanup
-        (double combinedUpgradeCost,double budgetRemainder, double gpuCost, double cpuCost, double ramCost, double userBudget, string userName)
+        private static void DisplayUpgradeSummary 
+        (double combinedUpgradeCost, double budgetRemainder, double[] componentCost, string[] componentNames, double userBudget, string userName)
         {
             string budgetStatus;
             if(combinedUpgradeCost > userBudget)
@@ -81,18 +90,27 @@ namespace BudgetCalculator
             {
                 budgetStatus = "Within Budget";
             }
-
+            /* TODO Split into 3 Parts | Heading | Components (For Loop) | Total Summary
+            */
             double remainingBudgetPercentage = (budgetRemainder / userBudget) * 100;
+            
             Console.WriteLine($"""
-
+            
             ----- UPGRADE SUMMARY-----
 
             Customer: {userName}
             Budget: ${userBudget:F2}
-            GPU Cost: ${gpuCost:F2}
-            CPU Cost: ${cpuCost:F2}
-            RAM Cost: ${ramCost:F2}
 
+            """);
+
+            // For Loop Goes Here
+            for (int i = 0;i < componentNames.Length;i++)
+            {
+                Console.WriteLine($"{componentNames[i]} Cost: {componentCost[i]:F2}");
+            }
+
+            Console.WriteLine($"""
+        
             Total Cost: ${combinedUpgradeCost:F2}
             Budget Status: {budgetStatus}
 
